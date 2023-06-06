@@ -9,5 +9,4 @@ Usage:
    jsonv -s schema.json path/*.json
 ```
 
-Define the schema with `-s [file]`
-Right now, it only works with local files.
+Right now, it only works with local files. It would be cool to validate against a remote schema at some point.
