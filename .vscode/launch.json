@@ -2,6 +2,18 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "MSVC",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"stopAtEntry": true,
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal",
+			"preLaunchTask": "Build: Debug",
+			"program": "${workspaceFolder}/build/x86_64-pc-windows-msvc_Debug/jsonv.exe",
+			"args": [],
+			"envFile": "${workspaceFolder}/build/x86_64-pc-windows-msvc_Debug/run.env"
+		},
+		{
 			"name": "LLDB",
 			"type": "cppdbg",
 			"request": "launch",
@@ -11,7 +23,7 @@
 			"internalConsoleOptions": "neverOpen",
 			"MIMode": "lldb",
 			"preLaunchTask": "Build: Debug",
-			"program": "${workspaceFolder}/build/arm64-apple-darwin_Debug/chalet-jsonv",
+			"program": "${workspaceFolder}/build/arm64-apple-darwin_Debug/jsonv",
 			"args": [],
 			"envFile": "${workspaceFolder}/build/arm64-apple-darwin_Debug/run.env"
 		}

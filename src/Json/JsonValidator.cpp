@@ -98,7 +98,7 @@ std::string ErrorHandler::parseRawError(JsonValidationError& outError)
 		}
 	*/
 
-	// LOG("outError.type: ", static_cast<int>(outError.type));
+	// LOG("outError.type: ", static_cast<i32>(outError.type));
 
 	const std::string& parentKey = outError.key.empty() ? kRootKey : outError.key;
 

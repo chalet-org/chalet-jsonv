@@ -1,5 +1,10 @@
 #include "Application.hpp"
 
+#if defined(CJV_MSVC)
+	#pragma warning(push)
+	#pragma warning(disable : 4996)
+#endif
+
 #include "Libraries/Format.hpp"
 #include "System/TerminalBud.hpp"
 #include "Utility/String.hpp"
@@ -9,7 +14,7 @@
 namespace cjv
 {
 /*****************************************************************************/
-int Application::run(const int argc, const char* argv[])
+i32 Application::run(const i32 argc, const char* argv[])
 {
 	termbud::initialize();
 
@@ -17,14 +22,14 @@ int Application::run(const int argc, const char* argv[])
 	{
 		std::cout << "JSON Validator CLI\n"
 					 "Usage:\n"
-					 "\tjsonv -c schema.json path/file1.json path/file2.json\n"
-					 "\tjsonv -c schema.json path/*.json.json\n";
+					 "   jsonv -c schema.json path/file1.json path/file2.json\n"
+					 "   jsonv -c schema.json path/*.json.json\n";
 		return CJV_EXIT_SUCCESS;
 	}
 
 	CJV_TRY
 	{
-		for (int i = 1; i < argc; ++i)
+		for (i32 i = 1; i < argc; ++i)
 		{
 			std::string arg(argv[i]);
 			if (arg == "-s")
@@ -151,3 +156,7 @@ bool Application::validate() const
 	return result;
 }
 }
+
+#if defined(CJV_MSVC)
+	#pragma warning(pop)
+#endif

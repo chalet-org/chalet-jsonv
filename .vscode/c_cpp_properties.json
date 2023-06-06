@@ -27,6 +27,28 @@
 				"/System/Library/Frameworks",
 				"/Library/Frameworks"
 			]
+		},
+		{
+			"name": "Win32",
+			"intelliSenseMode": "windows-msvc-x64",
+			"cppStandard": "c++20",
+			"defines": [
+				"_WIN32",
+				"_DEBUG",
+				"UNICODE",
+				"_UNICODE"
+			],
+			"forcedInclude": [
+				"${workspaceFolder}/src/pch.hpp"
+			],
+			"includePath": [
+				"${workspaceFolder}/chalet_external/nlohmann_json/single_include",
+				"${workspaceFolder}/chalet_external/json-schema-validator/src",
+				"${workspaceFolder}/build/int.json-schema-validator-s",
+				"${workspaceFolder}/chalet_external/fmt/include",
+				"${workspaceFolder}/src",
+				"${workspaceFolder}/build/int.jsonv"
+			]
 		}
 	]
 }

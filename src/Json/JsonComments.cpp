@@ -44,8 +44,8 @@ bool printLinesWithError(std::basic_istream<char>& inContents, const char* inErr
 	if (lineRaw.empty() || columnRaw.empty())
 		return false;
 
-	int lineNo = 0;
-	int columnNo = 0;
+	i32 lineNo = 0;
+	i32 columnNo = 0;
 	CJV_TRY
 	{
 		lineNo = std::stoi(lineRaw);
@@ -62,7 +62,7 @@ bool printLinesWithError(std::basic_istream<char>& inContents, const char* inErr
 	auto colorError = Output::getAnsiStyle(TerminalColor::Red);
 	auto colorReset = Output::getAnsiStyle(TerminalColor::Reset);
 
-	int i = 0;
+	i32 i = 0;
 	for (std::string line; std::getline(inContents, line); ++i)
 	{
 		if (i >= lineNo - 4 && i <= lineNo + 2)

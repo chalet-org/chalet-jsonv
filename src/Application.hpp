@@ -6,7 +6,7 @@ struct Application
 {
 	Application() = default;
 
-	int run(const int argc, const char* argv[]);
+	i32 run(const i32 argc, const char* argv[]);
 
 private:
 	bool validate() const;

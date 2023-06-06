@@ -2,7 +2,7 @@
 
 namespace cjv
 {
-enum class JsonErrorClassification : ushort
+enum class JsonErrorClassification : u32
 {
 	None,
 	Fatal,
