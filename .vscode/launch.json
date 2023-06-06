@@ -1,0 +1,19 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "LLDB",
+			"type": "cppdbg",
+			"request": "launch",
+			"stopAtEntry": true,
+			"cwd": "${workspaceFolder}",
+			"externalConsole": false,
+			"internalConsoleOptions": "neverOpen",
+			"MIMode": "lldb",
+			"preLaunchTask": "Build: Debug",
+			"program": "${workspaceFolder}/build/arm64-apple-darwin_Debug/chalet-jsonv",
+			"args": [],
+			"envFile": "${workspaceFolder}/build/arm64-apple-darwin_Debug/run.env"
+		}
+	]
+}

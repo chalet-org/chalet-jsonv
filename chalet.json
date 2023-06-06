@@ -1,0 +1,66 @@
+{
+	"name": "chalet-jsonv",
+	"version": "1.0.0",
+	"externalDependencies": {
+		"nlohmann_json": {
+			"kind": "git",
+			"repository": "git@github.com:nlohmann/json.git",
+			"tag": "v3.10.2"
+		},
+		"json-schema-validator": {
+			"kind": "git",
+			"repository": "git@github.com:chalet-org/json-schema-validator.git"
+		},
+		"fmt": {
+			"kind": "git",
+			"repository": "git@github.com:fmtlib/fmt.git",
+			"tag": "9.0.0"
+		}
+	},
+	"abstracts:*": {
+		"language": "C++",
+		"settings:Cxx": {
+			"cppStandard": "c++20",
+			"runtimeTypeInformation": false,
+			"staticRuntimeLibrary[toolchain:msvc]": true,
+			"cppFilesystem": true,
+			"warningsPreset": "strict",
+			"treatWarningsAsErrors": true,
+			"defines[:debug]": [
+				"_DEBUG"
+			],
+			"includeDirs": [
+				"${external:nlohmann_json}/single_include"
+			]
+		}
+	},
+	"targets": {
+		"json-schema-validator-s": {
+			"kind": "staticLibrary",
+			"settings:Cxx": {
+				"includeDirs": "${external:json-schema-validator}/src"
+			},
+			"files": "${external:json-schema-validator}/src/*.cpp"
+		},
+		"jsonv": {
+			"kind": "executable",
+			"settings:Cxx": {
+				"warningsPreset": "pedantic",
+				"precompiledHeader": "src/pch.hpp",
+				"includeDirs": [
+					"${external:json-schema-validator}/src",
+					"${external:fmt}/include",
+					"src"
+				],
+				"staticLinks": "json-schema-validator-s"
+			},
+			"files": "src/**.cpp"
+		}
+	},
+	"distribution": {
+		"all": {
+			"kind": "bundle",
+			"buildTargets": "*"
+		}
+	}
+}
