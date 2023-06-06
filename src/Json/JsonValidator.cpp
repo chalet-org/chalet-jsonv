@@ -66,12 +66,6 @@ void ErrorHandler::error(const nlohmann::json_pointer<nlohmann::json>& pointer, 
 
 	error.message = parseRawError(error);
 
-	for (auto& otherError : m_errors)
-	{
-		if (otherError.message == error.message)
-			return;
-	}
-
 	m_errors.push_back(error);
 }
 
