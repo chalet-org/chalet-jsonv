@@ -60,7 +60,7 @@
 	"distribution": {
 		"all": {
 			"kind": "bundle",
-			"buildTargets": "*"
+			"buildTargets": "jsonv"
 		}
 	}
 }
