@@ -144,6 +144,13 @@ bool Application::validate() const
 				result = false;
 				continue;
 			}
+
+			if (!validator.validate(jsonFile, file))
+			{
+				Diagnostic::error(fmt::format("File: {}", file));
+				if (!validator.printErrors())
+					result = false;
+			}
 		}
 		return result;
 	}
