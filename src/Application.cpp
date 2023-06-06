@@ -145,10 +145,11 @@ bool Application::validate() const
 				continue;
 			}
 
-			if (!validator.validate(jsonFile, file))
+			JsonValidationErrors errors;
+			if (!validator.validate(jsonFile, file, errors))
 			{
 				Diagnostic::error(fmt::format("File: {}", file));
-				if (!validator.printErrors())
+				if (!validator.printErrors(errors))
 					result = false;
 			}
 		}

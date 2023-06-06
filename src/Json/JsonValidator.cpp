@@ -15,13 +15,13 @@ struct JsonValidator::Impl
 /*****************************************************************************/
 struct ErrorHandler : JsonSchema::error_handler
 {
-	explicit ErrorHandler(JsonValidator::ValidationErrors& inErrors, const std::string& inFile) :
+	explicit ErrorHandler(JsonValidationErrors& inErrors, const std::string& inFile) :
 		m_errors(inErrors),
 		m_file(inFile)
 	{}
 
 private:
-	JsonValidator::ValidationErrors& m_errors;
+	JsonValidationErrors& m_errors;
 	const std::string& m_file;
 
 	const std::string kRootKey{ "(root)" };
@@ -90,6 +90,29 @@ std::string ErrorHandler::getPropertyFromErrorMsg(const std::string& inString)
 	return inString.substr(start, end - start);
 }
 
+void getValueWithTypCheck(std::any& data, std::string& outString)
+{
+	if (data.type() == typeid(f64) || data.type() == typeid(f32))
+	{
+		auto val = std::any_cast<Json::number_float_t>(data);
+		outString = std::to_string(val);
+	}
+	else if (data.type() == typeid(i64) || data.type() == typeid(i32))
+	{
+		auto val = std::any_cast<Json::number_integer_t>(data);
+		outString = std::to_string(val);
+	}
+	else if (data.type() == typeid(u64) || data.type() == typeid(u32))
+	{
+		auto val = std::any_cast<Json::number_unsigned_t>(data);
+		outString = std::to_string(val);
+	}
+	else
+	{
+		outString = "unknown";
+	}
+};
+
 /*****************************************************************************/
 std::string ErrorHandler::parseRawError(JsonValidationError& outError)
 {
@@ -103,8 +126,6 @@ std::string ErrorHandler::parseRawError(JsonValidationError& outError)
 			return fmt::format("An invalid value was found in '{}'. {}", outError.key, outError.messageRaw);
 		}
 	*/
-
-	// LOG("outError.type: ", static_cast<i32>(outError.type));
 
 	const std::string& parentKey = outError.key.empty() ? kRootKey : outError.key;
 
@@ -194,18 +215,21 @@ std::string ErrorHandler::parseRawError(JsonValidationError& outError)
 			return "Format-checking failed: " + std::any_cast<std::string>(data);
 
 		case JsonSchemaError::numeric_multiple_of: {
-			auto multiple = std::any_cast<Json::number_float_t>(data);
-			return "Instance is not a multiple of " + std::to_string(multiple);
+			std::string multiple;
+			getValueWithTypCheck(data, multiple);
+			return "Instance is not a multiple of " + multiple;
 		}
 
 		case JsonSchemaError::numeric_exceeds_maximum: {
-			auto maximum = std::any_cast<Json::number_float_t>(data);
-			return "Instance exceeds maximum of " + std::to_string(maximum);
+			std::string maximum;
+			getValueWithTypCheck(data, maximum);
+			return "Instance exceeds maximum of " + maximum;
 		}
 
 		case JsonSchemaError::numeric_below_minimum: {
-			auto minimum = std::any_cast<Json::number_float_t>(data);
-			return "Instance is below minimum of " + std::to_string(minimum);
+			std::string minimum;
+			getValueWithTypCheck(data, minimum);
+			return "Instance is below minimum of " + minimum;
 		}
 
 		case JsonSchemaError::null_found_non_null:
@@ -295,7 +319,7 @@ bool JsonValidator::setSchema(Json&& inSchema)
 }
 
 /*****************************************************************************/
-bool JsonValidator::validate(const Json& inJsonContent, const std::string& inFile)
+bool JsonValidator::validate(const Json& inJsonContent, const std::string& inFile, JsonValidationErrors& errors)
 {
 	CJV_TRY
 	{
@@ -305,10 +329,10 @@ bool JsonValidator::validate(const Json& inJsonContent, const std::string& inFil
 			return false;
 		}
 
-		ErrorHandler errorHandler{ m_errors, inFile };
+		ErrorHandler errorHandler{ errors, inFile };
 		m_impl->validator.validate(inJsonContent, errorHandler);
 
-		return m_errors.size() == 0;
+		return errors.size() == 0;
 	}
 	CJV_CATCH(const std::exception& err)
 	{
@@ -318,12 +342,12 @@ bool JsonValidator::validate(const Json& inJsonContent, const std::string& inFil
 }
 
 /*****************************************************************************/
-bool JsonValidator::printErrors()
+bool JsonValidator::printErrors(JsonValidationErrors& errors)
 {
-	if (m_errors.size() == 0)
+	if (errors.size() == 0)
 		return true;
 
-	for (auto& error : m_errors)
+	for (auto& error : errors)
 	{
 		if (error.message.empty())
 			continue;
@@ -337,9 +361,4 @@ bool JsonValidator::printErrors()
 	return false;
 }
 
-/*****************************************************************************/
-const JsonValidator::ValidationErrors& JsonValidator::errors() const noexcept
-{
-	return m_errors;
-}
 }

@@ -21,7 +21,7 @@
 		"language": "C++",
 		"settings:Cxx": {
 			"cppStandard": "c++20",
-			"runtimeTypeInformation": false,
+			"runtimeTypeInformation": true,
 			"staticRuntimeLibrary[toolchain:msvc]": true,
 			"cppFilesystem": true,
 			"warningsPreset": "strict",

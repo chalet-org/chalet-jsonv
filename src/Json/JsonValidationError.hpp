@@ -17,4 +17,6 @@ struct JsonValidationError
 	JsonSchemaError type = JsonSchemaError::none;
 	JsonErrorClassification classification = JsonErrorClassification::None;
 };
+
+using JsonValidationErrors = std::vector<JsonValidationError>;
 }
