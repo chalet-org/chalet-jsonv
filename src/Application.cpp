@@ -22,8 +22,8 @@ i32 Application::run(const i32 argc, const char* argv[])
 	{
 		std::cout << "JSON Validator CLI\n"
 					 "Usage:\n"
-					 "   jsonv -c schema.json path/file1.json path/file2.json\n"
-					 "   jsonv -c schema.json path/*.json.json\n";
+					 "   jsonv -s schema.json path/file1.json path/file2.json\n"
+					 "   jsonv -s schema.json path/*.json.json\n";
 		return CJV_EXIT_SUCCESS;
 	}
 
